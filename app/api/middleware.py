@@ -33,9 +33,8 @@ def commonResponseMiddleware(response):
 
 @api.before_request
 def methodPOSTRequestMiddleware():
-    if request.method != METHOD.POST.name or request.method != METHOD.PUT.name:
+    if request.method != METHOD.POST.name and request.method != METHOD.PUT.name:
         return
-    
     try:
         queryStringChecker = QueryStringHandler()
         agentChecker = AgentHandler()
