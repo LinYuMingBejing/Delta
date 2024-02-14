@@ -17,7 +17,7 @@ resources = {
 ingress = {
   external = {
     ingressClass = "nginx-external"
-    fqdn         = "www.delta.com"
+    fqdn         = "www.deltaww-energy.com"
   }
 }
 
