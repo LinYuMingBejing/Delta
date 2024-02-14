@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: delta-external-routing
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.external.fqdn }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: api-server
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix

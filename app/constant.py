@@ -1,0 +1,6 @@
+ALLOWED_DOMAIN = 'www.deltaww-energy.com'
+ALLOWED_HOST = 'www.deltaww-energy.com'
+ALLOWED_MEDIA_TYPE = 'applicaon/json'
+ALLOWED_REFERER = 'www.svc.deltaww-energy.com'
+HEADER_FROM = 'hello@deltaww-energy.com'
+WHITE_LIST='/test_connection'

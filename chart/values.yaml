@@ -1,0 +1,29 @@
+image: 
+  repository: <overwrite>
+  imagePullPolicy: <overwrite>
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: <overwrite>
+    memory: <overwrite>
+  requests:
+    cpu: <overwrite>
+    memory: <overwrite>
+
+env:
+  CELERY_BROKER_URL: <overwrite>
+  EXTERNAL_DB_DELTA: <overwrite>
+  INTERNAL_DB_DELTA: <overwrite>
+  EXTERNAL_DB_ENDPOINT: <overwrite>
+  INTERNAL_DB_ENDPOINT: <overwrite>
+
+secrets:
+  EXTERNAL_DB_USERNAME: <overwrite>
+  EXTERNAL_DB_PASSWORD: <overwrite>
+  INTERNAL_DB_USERNAME: <overwrite>
+  INTERNAL_DB_PASSWORD: <overwrite>
+
+ingress:
+  external:
+    fqdn: <overwrite>

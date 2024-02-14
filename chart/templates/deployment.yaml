@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      # initContainers:
+      # - name: db-init
+      #   image: {{ .Values.image.repository }}
+      #   imagePullPolicy: {{ .Values.image.pullPolicy }}
+      #   command:
+      #     - /bin/sh
+      #     - /usr/src/delta/init_db.sh
+      #   envFrom:
+      #   - secretRef:
+      #       name: mysql-secret
+      #   env:
+      #     {{- range $key, $val := .Values.env }}
+      #     - name: {{ $key }}
+      #       value: "{{ $val }}"
+      #     {{ end }}
+      #     - name: SQLALCHEMY_DATABASE_URI
+      #       value: mysql+pymysql://$(INTERNAL_DB_USERNAME):$(INTERNAL_DB_PASSWORD)@$(INTERNAL_DB_ENDPOINT)/$(INTERNAL_DB_DELTA)
+      #     - name: EXTERNAL_DATABASE_URI
+      #       value: mysql+pymysql://$(EXTERNAL_DB_USERNAME):$(EXTERNAL_DB_PASSWORD)@$(EXTERNAL_DB_ENDPOINT)/$(EXTERNAL_DB_DELTA)
+      #     - name: INTERNAL_DATABASE_URI
+      #       value: mysql+pymysql://$(INTERNAL_DB_USERNAME):$(INTERNAL_DB_PASSWORD)@$(INTERNAL_DB_ENDPOINT)/$(INTERNAL_DB_DELTA)
+      #     - name: PYTHONPATH
+      #       value: /usr/src/delta/app
+      containers:
+      - name: api-server
+        image: {{ .Values.image.repository }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+          - uwsgi
+          - --ini
+          - /usr/src/delta/uwsgi.ini
+        envFrom:
+        - secretRef:
+            name: mysql-secret
+        env:
+          {{- range $key, $val := .Values.env }}
+          - name: {{ $key }}
+            value: "{{ $val }}"
+          {{ end }}
+          - name: SQLALCHEMY_DATABASE_URI
+            value: mysql+pymysql://$(INTERNAL_DB_USERNAME):$(INTERNAL_DB_PASSWORD)@$(INTERNAL_DB_ENDPOINT)/$(INTERNAL_DB_DELTA)
+          - name: EXTERNAL_DATABASE_URI
+            value: mysql+pymysql://$(EXTERNAL_DB_USERNAME):$(EXTERNAL_DB_PASSWORD)@$(EXTERNAL_DB_ENDPOINT)/$(EXTERNAL_DB_DELTA)
+          - name: INTERNAL_DATABASE_URI
+            value: mysql+pymysql://$(INTERNAL_DB_USERNAME):$(INTERNAL_DB_PASSWORD)@$(INTERNAL_DB_ENDPOINT)/$(INTERNAL_DB_DELTA)
+          - name: PYTHONPATH
+            value: /usr/src/delta/app
+        readinessProbe:
+          httpGet:
+            path: /test_connection
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 60
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: log
+          mountPath: /var/log
+          subPath: api.log
+      volumes:
+      - name: log
+        emptyDir: {}

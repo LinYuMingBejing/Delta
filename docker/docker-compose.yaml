@@ -1,0 +1,15 @@
+version: "2.1"
+
+services:
+  flask:
+    container_name: flask
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    env_file: delta.env
+    command: uwsgi --ini /usr/src/delta/uwsgi.ini
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+    restart: always
