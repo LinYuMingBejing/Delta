@@ -8,26 +8,25 @@ from schema import InventorySchema
 from utils.status import SUCCESS
 
 
-@api.route('/inventory/<cloth_id>')
-def queryInventory(cloth_id):
-    data = db.session.query(Inventory, ClothInfo, Size, Color).\
+@api.route('/inventory/cloth/<cloth_id>')
+def queryCertainClothQuantity(cloth_id):
+    rows = db.session.query(Inventory, ClothInfo, Size, Color).\
         join(ClothInfo, Inventory.cloth_id == ClothInfo.id).\
         join(Size, Inventory.size_id == Size.id).\
         join(Color, Inventory.color_id == Color.id).\
         filter(ClothInfo.id == cloth_id).all()
-
-    result = []
-    for d in data:
-        inventory, cloth, size, color = d
-        result.append({
+    data = []
+    for row in rows:
+        inventory, cloth, size, color = row
+        data.append({
             'inventory_id': inventory.id,
             'cloth_name': cloth.name,
             'size_name': size.name,
             'color_name': color.name,
-            'inventory': inventory.inventory
+            'inventory': inventory.quantity
         })
 
-    return jsonify(data=result, code=200)
+    return jsonify(data=data, code=200)
 
 
 @api.route('/inventory', methods=['POST'])
@@ -39,11 +38,11 @@ def createInventory():
         return jsonify(err.messages), 422
     
     if not Size.query.get(data['size_id']):
-        raise ValidationError({'size_id': 'Invalid size_id'})
+        return jsonify(message='Invalid size_id', code=422), 422
     if not Color.query.get(data['color_id']):
-        raise ValidationError({'color_id': 'Invalid color_id'})
+        return jsonify(message='Invalid color_id', code=422), 422
     if not ClothInfo.query.get(data['cloth_id']):
-        raise ValidationError({'cloth_id': 'Invalid cloth_id'})
+        return jsonify(message='Invalid cloth_id', code=422), 422
    
     inventory = Inventory()
     inventory.cloth_id = data['cloth_id']
@@ -63,16 +62,14 @@ def updateInventory(inventory_id):
     except ValidationError as err:
         return jsonify(err.messages), 422
     
-    inventory = Inventory.query.get(inventory_id)
-    if not inventory:
-        raise ValidationError({'inventory_id': 'Invalid inventory_id'})
     if not Size.query.get(data['size_id']):
-        raise ValidationError({'size_id': 'Invalid size_id'})
+        return jsonify(message='Invalid size_id', code=422), 422
     if not Color.query.get(data['color_id']):
-        raise ValidationError({'color_id': 'Invalid color_id'})
+        return jsonify(message='Invalid color_id', code=422), 422
     if not ClothInfo.query.get(data['cloth_id']):
-        raise ValidationError({'cloth_id': 'Invalid cloth_id'})
-   
+        return jsonify(message='Invalid cloth_id', code=422), 422
+    
+    inventory = Inventory.query.get_or_404(inventory_id)
     inventory.cloth_id = data['cloth_id']
     inventory.color_id = data['color_id']
     inventory.size_id = data['size_id']
@@ -86,4 +83,4 @@ def updateInventory(inventory_id):
 def deleteInventory(inventory_id):    
     inventory = Inventory.query.get_or_404(inventory_id)
     inventory.delete()
-    return jsonify(data=inventory.to_dict(), code=201)
+    return jsonify(data=inventory.to_dict(), code=201), 201

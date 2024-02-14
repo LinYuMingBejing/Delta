@@ -52,6 +52,7 @@ def methodPOSTRequestMiddleware():
 
 
 @api.before_request
+@excludeWhileList
 def methodGetRequestMiddleware():
     if request.method != METHOD.GET.name:
         return

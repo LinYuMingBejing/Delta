@@ -9,8 +9,8 @@ SQLALCHEMY_BINDS = {
 SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS', True)
 
 # Celery
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'amqp://guest:guest@10.103.75.37')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'amqp://guest:guest@10.103.75.37')
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
 CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = 'Asia/Taipei'
 CELERYD_LOG_FORMAT = '%(asctime)s stdout F [%(levelname)s]%(message)s}'

@@ -1,0 +1,18 @@
+env
+*.log
+__pycache__
+
+# Ignore bin files
+bin/*
+bin/
+
+# macOS
+.DS_Store
+
+# terraform
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+*.log.*

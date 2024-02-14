@@ -1,7 +1,7 @@
 from app import db
 from datetime import datetime
 
-EXCLUDED_FIELDS = ["creation_date", "modified_date"]
+EXCLUDED_FIELDS = ['category_id', 'creation_date', 'modified_date']
 
 
 class BaseModel():
@@ -75,8 +75,7 @@ class ClothInfo(BaseModel, db.Model):
 
     cloth_info = db.relationship('Inventory', backref=db.backref('info'))
 
-    def __init__(self, code, name, unit_price, category_id):
-       self.code = code
-       self.name = name
-       self.unit_price = unit_price
-       self.category_id = category_id
+    def to_dict(self):
+        base_dict = super().to_dict()
+        base_dict['category'] = self.category.name
+        return base_dict

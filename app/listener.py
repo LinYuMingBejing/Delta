@@ -3,8 +3,6 @@ import raven
 from raven.contrib.celery import register_signal, register_logger_signal
 import os
 
-from settings.defaults import CELERY_BROKER_URL
-
 
 class Celery(BaseCelery):
     def on_configure(self):
@@ -16,7 +14,7 @@ class Celery(BaseCelery):
 def make_celery(app):
     celery = Celery(
         app.import_name,
-        broker=CELERY_BROKER_URL
+        broker=os.environ.get('CELERY_BROKER_URL')
     )
     celery.conf.update(app.config)
     TaskBase = celery.Task

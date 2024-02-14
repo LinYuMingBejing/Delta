@@ -1,10 +1,12 @@
 import celery
-from celery.signals import worker_ready
 from celery import shared_task
+from celery.signals import worker_ready
+from celery.utils.log import get_task_logger
 
 from app import db
 from app.utils.method import METHOD
 
+logger = get_task_logger(__name__)
 
 class Task(celery.Task):
     def on_failure(self, exc, task_id, args, kwargs, einfo):
@@ -24,6 +26,7 @@ def on_worker_init(**_):
 
 @shared_task
 def db_sync(message: dict):
+    logger.info('Receive message: ', message)
     session = db.sessionmaker(bind=db.create_engine(message['url'], engine_opts={}))
     session = session()
     object = globals()[message['instance']]
@@ -35,5 +38,5 @@ def db_sync(message: dict):
             session.delete(object(**message['body']))
             session.commit()
     except Exception as e:
-        print(e)
-    return {"status":True}
+        logger.error(e)
+    return {'status': True}

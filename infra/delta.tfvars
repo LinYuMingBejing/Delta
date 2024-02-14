@@ -22,7 +22,7 @@ ingress = {
 }
 
 external_mysql = {
-  endpoint = "0.tcp.jp.ngrok.io:15832"
+  endpoint = "0.tcp.jp.ngrok.io:17885"
   database = "demo8"
   username = "root"
   password = "root"
