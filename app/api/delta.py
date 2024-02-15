@@ -16,3 +16,8 @@ def orginRoute():
 @api.route('/dsebd/api/v1/sta')
 def routeRedirect():
     return jsonify(path=request.path, message=REDIRECT.message, code=302), 302
+
+
+@api.route('/dsebd/about/me')
+def aboutMe():
+    return jsonify(message=SUCCESS.message, code=200)
