@@ -46,7 +46,7 @@ $ brew install terraform
 ## Start the application
 ### First, expose the MySQL port in local
 ```
-$ ngork 3306
+$ ngrok tcp 3306
 ```
 * You will get the new mysql endpoint
 ![Expose](https://i.imgur.com/9mkfq5V.png)
@@ -94,7 +94,10 @@ $ python3 manage.py db upgrade
 1. Redirect
 * Request 
 ```
-curl -L http://www.delta.com/dsebd/api/v1/resource
+curl -L http://www.delta.com/dsebd/api/v1/resource \
+    -H "Cookie: expires=Mon, 04 Dec 2024 08:18:32 GMT; domain=www.deltaww-energy.com" \
+    -H "Referer: www.svc.deltaww-energy.com" \
+    -H "HOST: www.deltaww-energy.com"
 ```
 * Response
 
@@ -108,7 +111,10 @@ curl -L http://www.delta.com/dsebd/api/v1/resource
 2. About Me
 * Request 
 ```
-curl http://www.delta.com/dsebd/about/me
+curl http://www.delta.com/dsebd/about/me \
+    -H "Cookie: expires=Mon, 04 Dec 2024 08:18:32 GMT; domain=www.deltaww-energy.com" \
+    -H "Referer: www.svc.deltaww-energy.com" \
+    -H "HOST: www.deltaww-energy.com"
 ```
 * Response
 
@@ -122,7 +128,8 @@ curl http://www.delta.com/dsebd/about/me
 ## DB CRUD Test
 1. Create category
 * Request 
- ```curl -X POST \
+ ```
+ curl -X POST \
     http://www.delta.com/category \
     -H "Content-Type: application/json" \
     -H "X-DSEBD-AGENT: AGENT_1" \
@@ -280,7 +287,7 @@ curl -X POST \
 *. Request
 ```
 curl -X GET \
-  http://www.delta.com/inventory/cloth/1 \
+  http://www.deltaww-energy.com/size \
   -H "Cookie: expires=Mon, 04 Dec 2024 08:18:32 GMT; domain=www.deltaww-energy.com" \
   -H "Referer: www.svc.deltaww-energy.com" \
   -H "HOST: www.deltaww-energy.com"
