@@ -12,9 +12,14 @@ module "rabbitmq" {
   depends_on = [module.minukube]
 }
 
+module "build" {
+  source     = "./image"
+  depends_on = [module.minukube]
+}
+
 module "delta" {
   source         = "./app"
-  depends_on     = [module.mysql, module.rabbitmq]
+  depends_on     = [module.mysql, module.rabbitmq, module.build]
   image          = var.image
   ingress        = var.ingress
   external_mysql = var.external_mysql
