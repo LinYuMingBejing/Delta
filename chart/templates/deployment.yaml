@@ -67,6 +67,13 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 60
           timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /test_connection
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 60
+          timeoutSeconds: 5
         ports:
         - containerPort: 8080
         volumeMounts:
