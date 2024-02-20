@@ -94,7 +94,7 @@ $ python3 manage.py db upgrade
 1. Redirect
 * Request 
 ```
-curl -L http://www.delta.com/dsebd/api/v1/resource \
+curl -L http://www.deltaww-energy.com/dsebd/api/v1/resource \
     -H "Cookie: expires=Mon, 04 Dec 2024 08:18:32 GMT; domain=www.deltaww-energy.com" \
     -H "Referer: www.svc.deltaww-energy.com" \
     -H "HOST: www.deltaww-energy.com"
@@ -245,7 +245,7 @@ curl -X PUT \
 | 422        |  {"code":422,"message":"Invalid input type."}   |  
 
 7. Query cloth
-*. Request
+* Request
 ```
 curl -X GET \
   http://www.delta.com/cloth/3 \
@@ -253,7 +253,7 @@ curl -X GET \
   -H "Referer: www.svc.deltaww-energy.com" \
   -H "HOST: www.deltaww-energy.com"
 ```
-*. Response
+* Response
 |  Status Code  | Message    |
 | --------    | --------| 
 | 200        |  {"code":200,"data":{"category":"plants","code":"A-001","id":3,"name":"Star2","unit_price":300}}  |  
@@ -263,7 +263,7 @@ curl -X GET \
 | 404        |  {"code":404,"message":"Not Found."}   | 
 
 8. Create inventory
-*. Request
+* Request
 ```
 curl -X POST \
   http://www.delta.com/inventory/ \
@@ -273,7 +273,7 @@ curl -X POST \
   -d '{"cloth_id": 3, "color_id": 1, "size_id":2, "quantity":100}'
 ```
 
-*. Response
+* Response
 |  Status Code  | Message    |
 | --------    | --------| 
 | 201        |  {"code":201,"data":{"cloth_id":1,"color_id":1,"id":2,"quantity":20,"size_id":3},"message":"The action was performed successfully."}   |  
@@ -284,16 +284,16 @@ curl -X POST \
 
 9. Query inventory
 
-*. Request
+* Request
 ```
 curl -X GET \
-  http://www.deltaww-energy.com/size \
+  http://www.delta.com/size \
   -H "Cookie: expires=Mon, 04 Dec 2024 08:18:32 GMT; domain=www.deltaww-energy.com" \
   -H "Referer: www.svc.deltaww-energy.com" \
   -H "HOST: www.deltaww-energy.com"
 ```
 
-*. Response
+* Response
 |  Status Code  | Message    |
 | --------    | -----| 
 | 200        | {"code":200,"data":[{"cloth_name":"NET","color_name":"RED","inventory":300,"inventory_id":1,"size_name":"M"}]   |  
