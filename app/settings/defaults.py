@@ -1,7 +1,7 @@
 import os
 
 # sqlalchemy
-SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI','mysql+pymysql://root:root@0.tcp.jp.ngrok.io:19792/demo?charset=utf8mb4')
+SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI','mysql+pymysql://root:root@localhost:3306/demo?charset=utf8mb4')
 SQLALCHEMY_BINDS = {
     'external_database': os.environ.get('EXTERNAL_DATABASE_URI'),
     'internal_database': os.environ.get('INTERNAL_DATABASE_URI')
